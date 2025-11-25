@@ -6,6 +6,7 @@ import com.example.analytics_svc.repository.ProjectSnapshotRepository;
 import com.example.analytics_svc.web.dto.ProjectAnalyticsRequest;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class ProjectService {
 
@@ -57,6 +59,7 @@ public class ProjectService {
         projectAnalyticsRepository.findByUserId(userId)
                 .ifPresent(project -> projectAnalytics.setId(project.getId()));
 
+        log.info("Successfully upserted project analytics for user [%s]".formatted(userId));
         return projectAnalyticsRepository.save(projectAnalytics);
     }
 

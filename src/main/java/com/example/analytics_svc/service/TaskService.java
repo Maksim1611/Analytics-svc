@@ -7,6 +7,7 @@ import com.example.analytics_svc.repository.TaskSnapshotRepository;
 import com.example.analytics_svc.web.dto.TaskAnalyticsRequest;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class TaskService {
 
@@ -60,6 +62,7 @@ public class TaskService {
         taskAnalyticsRepository.findByUserId(userId)
                 .ifPresent(task -> analytics.setId(task.getId()));
 
+        log.info("Successfully upserted task analytics for user [%s]".formatted(userId));
         return taskAnalyticsRepository.save(analytics);
     }
 
