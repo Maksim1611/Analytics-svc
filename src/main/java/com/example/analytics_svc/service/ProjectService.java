@@ -82,14 +82,14 @@ public class ProjectService {
     }
 
     private double getCompletionRateLifetime(List<ProjectSnapshot> lifetime) {
-        long completed = lifetime.stream().filter(p -> p.getCompletedOn() != null).count();
-        long projects = lifetime.size();
+        int completed = getCompletedProjects(lifetime);
+        int projects = lifetime.size();
 
         if (projects == 0) {
             return 0;
         }
 
-        return ((double) completed /  projects) * 100;
+        return ((double)completed / projects) * 100.0;
     }
 
     private long getAverageProjectDurationLifetime(List<ProjectSnapshot> lifetime) {
