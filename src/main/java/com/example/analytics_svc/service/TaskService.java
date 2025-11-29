@@ -92,18 +92,18 @@ public class TaskService {
 
     }
 
-    private long getFastestCompletionTime(List<TaskSnapshot> lifetime) {
+    public long getFastestCompletionTime(List<TaskSnapshot> lifetime) {
         return lifetime.stream().filter(t -> t.getCreatedOn() != null && t.getCompletedOn() != null)
                 .map(t -> Duration.between(t.getCreatedOn(), t.getCompletedOn())).sorted().findFirst()
                 .map(Duration::toHours).orElse(0L);
     }
 
 
-    private List<TaskSnapshot> getLifetimeOverdueTasks(List<TaskSnapshot> lifetime) {
+    public List<TaskSnapshot> getLifetimeOverdueTasks(List<TaskSnapshot> lifetime) {
         return lifetime.stream().filter(t -> t.getStatus().equals("OVERDUE") && t.isDeleted()).toList();
     }
 
-    private List<TaskSnapshot> getAbandonedLifetimeTasks(List<TaskSnapshot> lifetime) {
+    public List<TaskSnapshot> getAbandonedLifetimeTasks(List<TaskSnapshot> lifetime) {
         return lifetime.stream().filter(t -> !t.getStatus().equals("COMPLETED") && t.isDeleted()).toList();
     }
 
@@ -130,35 +130,35 @@ public class TaskService {
                 .build();
     }
 
-    private int getLowPriorityTasks(List<TaskSnapshot> tasks) {
+    public int getLowPriorityTasks(List<TaskSnapshot> tasks) {
         return (int) tasks.stream().filter(t -> t.getPriority().equals("LOW")).count();
     }
 
-    private int getMediumPriorityTasks(List<TaskSnapshot> tasks) {
+    public int getMediumPriorityTasks(List<TaskSnapshot> tasks) {
         return (int) tasks.stream().filter(t -> t.getPriority().equals("MEDIUM")).count();
     }
 
-    private int getHighPriorityTasks(List<TaskSnapshot> tasks) {
+    public int getHighPriorityTasks(List<TaskSnapshot> tasks) {
         return (int) tasks.stream().filter(t -> t.getPriority().equals("HIGH")).count();
     }
 
-    private int getTodoTasks(List<TaskSnapshot> tasks) {
+    public int getTodoTasks(List<TaskSnapshot> tasks) {
         return (int) tasks.stream().filter(t -> t.getStatus().equals("TODO")).count();
     }
 
-    private List<TaskSnapshot> getCompletedTasks(List<TaskSnapshot> tasks) {
+    public List<TaskSnapshot> getCompletedTasks(List<TaskSnapshot> tasks) {
         return  tasks.stream().filter(t -> t.getStatus().equals("COMPLETED")).toList();
     }
 
-    private int getInProgressTasks(List<TaskSnapshot> tasks) {
+    public int getInProgressTasks(List<TaskSnapshot> tasks) {
         return (int) tasks.stream().filter(t -> t.getStatus().equals("IN_PROGRESS")).count();
     }
 
-    private int getOverdueTasks(List<TaskSnapshot> tasks) {
+    public int getOverdueTasks(List<TaskSnapshot> tasks) {
         return (int) tasks.stream().filter(t -> t.getStatus().equals("OVERDUE")).count();
     }
 
-    private double getCompletionRate(List<TaskSnapshot> tasks) {
+    public double getCompletionRate(List<TaskSnapshot> tasks) {
         int totalTasks = tasks.size();
         int completedTasks = getCompletedTasks(tasks).size();
 
@@ -169,7 +169,7 @@ public class TaskService {
         return ((double) completedTasks / totalTasks) * 100.0;
     }
 
-    private double averageCompletionTime(List<TaskSnapshot> tasks) {
+    public double averageCompletionTime(List<TaskSnapshot> tasks) {
         if (tasks.isEmpty()) {
             return 0;
         }

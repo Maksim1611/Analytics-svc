@@ -63,7 +63,7 @@ public class ProjectService {
         return projectAnalyticsRepository.save(projectAnalytics);
     }
 
-    private ProjectAnalytics getProjectAnalytics(List<ProjectSnapshot> projects, List<ProjectSnapshot> lifetime, UUID userId) {
+    public ProjectAnalytics getProjectAnalytics(List<ProjectSnapshot> projects, List<ProjectSnapshot> lifetime, UUID userId) {
 
         if (projects.isEmpty()) {
             return emptyAnalytics(userId);
@@ -84,7 +84,7 @@ public class ProjectService {
                 .build();
     }
 
-    private double getCompletionRateLifetime(List<ProjectSnapshot> lifetime) {
+    public double getCompletionRateLifetime(List<ProjectSnapshot> lifetime) {
         int completed = getCompletedProjects(lifetime);
         int projects = lifetime.size();
 
@@ -95,7 +95,7 @@ public class ProjectService {
         return ((double)completed / projects) * 100.0;
     }
 
-    private long getAverageProjectDurationLifetime(List<ProjectSnapshot> lifetime) {
+    public long getAverageProjectDurationLifetime(List<ProjectSnapshot> lifetime) {
         if (lifetime == null || lifetime.isEmpty()) {
             return 0;
         }
@@ -121,15 +121,15 @@ public class ProjectService {
         return sum / durationBetweenInDays.size();
     }
 
-    private List<ProjectSnapshot> getAbandonedLifetimeProjects(List<ProjectSnapshot> lifetime) {
+    public List<ProjectSnapshot> getAbandonedLifetimeProjects(List<ProjectSnapshot> lifetime) {
         return lifetime.stream().filter(p -> p.getStatus().equals("OVERDUE") && p.isDeleted()).toList();
     }
 
-    private int getOverdueProjects(List<ProjectSnapshot> projects) {
+    public int getOverdueProjects(List<ProjectSnapshot> projects) {
         return (int) projects.stream().filter(p -> p.getStatus().equals("OVERDUE")).count();
     }
 
-    private int getAverageProgress(List<ProjectSnapshot> projects) {
+    public int getAverageProgress(List<ProjectSnapshot> projects) {
         if (projects.isEmpty()) {
             return 0;
         }
@@ -143,11 +143,11 @@ public class ProjectService {
         return Math.round((float) sum / projects.size());
     }
 
-    private int getCompletedProjects(List<ProjectSnapshot> projects) {
+    public int getCompletedProjects(List<ProjectSnapshot> projects) {
         return (int) projects.stream().filter(p -> p.getStatus().equals("COMPLETED")).count();
     }
 
-    private int getActiveProjects(List<ProjectSnapshot> projects) {
+    public int getActiveProjects(List<ProjectSnapshot> projects) {
         return (int) projects.stream().filter(p -> p.getStatus().equals("ACTIVE")).count();
     }
 
