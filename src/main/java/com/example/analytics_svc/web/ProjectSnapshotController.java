@@ -31,7 +31,8 @@ public class ProjectSnapshotController {
 
         if (requests == null || requests.isEmpty()) {
             snapshotRepository.deleteAllByUserId(userId);
-            return ResponseEntity.ok().build();
+            ProjectAnalytics empty = projectService.emptyAnalytics(userId);
+            return ResponseEntity.ok(empty);
         }
 
         ProjectAnalytics projectAnalytics = projectService.upsertProjects(requests, userId);

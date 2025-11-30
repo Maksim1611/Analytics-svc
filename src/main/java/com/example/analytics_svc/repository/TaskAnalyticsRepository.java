@@ -12,4 +12,6 @@ public interface TaskAnalyticsRepository extends JpaRepository<TaskAnalytics, UU
 
 
     Optional<TaskAnalytics> findByUserId(UUID userId);
+
+    void deleteAllByUserId(UUID userId);
 }
